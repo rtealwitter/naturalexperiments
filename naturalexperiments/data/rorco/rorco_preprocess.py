@@ -12,7 +12,9 @@ import pickle
 
 def get_response(address):
     address = address.replace(' ', '+').replace('#', '')
-    google_api_key = "AIzaSyDLua__FoXMs_hFqcJhrIDpbI7f17MlwI8"
+    # Create your own Google API key
+    # https://developers.google.com/maps/documentation/javascript/get-api-key
+    google_api_key = ""
     url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={google_api_key}'
     print(url)
     response = requests.get(url).json()
