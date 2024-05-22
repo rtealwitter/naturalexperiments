@@ -351,4 +351,5 @@ if __name__ == '__main__':
 
     school_geom = add_proximity(school_geom)
 
-    pickle.dump(school_geom, open('rorco_data.pkl', 'wb'))
+    # Write to csv
+    school_geom.to_csv('rorco_data.csv')

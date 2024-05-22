@@ -2,11 +2,21 @@ import numpy as np
 import pandas as pd
 import pickle as pkl
 import sklearn.preprocessing
+import os
+import requests
 
 def load_rorco():
-    filename = __file__.replace('__init__.py', 'rorco_data.pkl')
+    filename = __file__.replace('__init__.py', 'rorco_data.csv')
 
-    data = pkl.load(open(filename, 'rb'))
+    if not os.path.exists(filename):
+        # Download the data 
+        url = 'https://github.com/rtealwitter/naturalexperiments/blob/main/naturalexperiments/data/rorco/rorco_data.csv'
+
+        r = requests.get(url)
+        url_content = r.content
+        open(filename, 'wb').write(r.content)
+
+    data = pd.read_csv(filename)
 
     # Restrict to rural schools
     data = data[data['is_rural'] == 1]
