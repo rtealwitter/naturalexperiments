@@ -2,13 +2,22 @@ import pandas as pd
 import os
 import pickle as pkl
 import numpy as np
+import requests
 
 def load_acic():
     # Print absolute path
     # Get absolute path to this file
-    filename = __file__.replace('__init__.py', 'acic_data.pkl')
+    filename = __file__.replace('__init__.py', 'acic_data.csv')
 
-    data = pkl.load(open(filename, 'rb'))
+    if not os.path.exists(filename):
+        print('Downloading ACIC data...')
+        # Download the data 
+        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/acic/acic_data.csv'
+
+        r = requests.get(url)
+        open(filename, 'wb').write(r.content)
+    
+    data = pd.read_csv(filename)
 
     # Remove string columns
     data = data.select_dtypes(include = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64'])

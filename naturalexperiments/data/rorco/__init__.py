@@ -9,11 +9,11 @@ def load_rorco():
     filename = __file__.replace('__init__.py', 'rorco_data.csv')
 
     if not os.path.exists(filename):
+        print('Downloading RORCO data...')
         # Download the data 
-        url = 'https://github.com/rtealwitter/naturalexperiments/blob/main/naturalexperiments/data/rorco/rorco_data.csv'
+        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/rorco/rorco_data.csv'
 
         r = requests.get(url)
-        url_content = r.content
         open(filename, 'wb').write(r.content)
 
     data = pd.read_csv(filename)
