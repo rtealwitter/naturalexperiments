@@ -33,10 +33,10 @@ if __name__ == '__main__':
     # Read filenames in csv folder
     try:
         for seed_num in range(1, 51):
-            filename = __file__.replace('__init__.py', f'topic_doc_mean_n5000_k3477_seed_{seed_num}.csv.y')
+            filename = __file__.replace('__init__.py', f'csv/topic_doc_mean_n5000_k3477_seed_{seed_num}.csv.y')
             data = pd.read_csv(filename, header=None)
-            data.to_csv(__file__.replace('__init__.py', f'news_data_{seed_num}.csv'))
-    except:
+            data.to_csv(__file__.replace('__init__.py', f'news_data_{seed_num}.csv'), index=False, header=False)
+    except FileNotFoundError:
         print('Please download the news data from https://shubhanshu.com/awesome-causality/#data')
-        print('Extract the zip file and place all csv files that end in .csv.y in the news folder')
+        print('Extract the zip file and place the csv folder in the news directory')
         print('Then run this script again')
