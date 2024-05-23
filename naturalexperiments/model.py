@@ -36,9 +36,10 @@ class CustomDataset(Dataset):
         return self.X[idx], self.y[idx], self.weights[idx]
 
 class Model(torch.nn.Module):
-    def __init__(self, input_size, hidden_dim=100, num_layers=3):
+    def __init__(self, input_size, hidden_dim=100, num_layers=3, output_logits=False):
         super(Model, self).__init__()
         activation = torch.nn.Sigmoid
+        activation = torch.nn.ReLU
         layers = []
         layers.append(torch.nn.Linear(input_size, hidden_dim))
         layers.append(activation())
@@ -46,13 +47,14 @@ class Model(torch.nn.Module):
             layers.append(torch.nn.Linear(hidden_dim, hidden_dim))
             layers.append(activation())            
         layers.append(torch.nn.Linear(hidden_dim, 1))    
-        layers.append(activation())
+        if output_logits:
+            layers.append(torch.nn.Sigmoid())
         self.layers = torch.nn.Sequential(*layers)
 
     def forward(self, x):
         return self.layers(x)
 
-def train(X_train, y_train, X_test=None, weights=None, lr=.001, epochs=200, return_model=False, clip_value=None, noise_multiplier=None, loss=None):
+def train(X_train, y_train, X_test=None, weights=None, lr=.001, epochs=200, return_model=False, clip_value=None, noise_multiplier=None, is_bce=False):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -62,10 +64,11 @@ def train(X_train, y_train, X_test=None, weights=None, lr=.001, epochs=200, retu
     dataset = CustomDataset(X_train, y_train, weights)
     dataloader = DataLoader(dataset, batch_size=1000, shuffle=True)
 
-    if loss is None:
-        loss = lambda y_true, y_pred, weights: ((y_true - y_pred) ** 2 * weights).mean()
+    loss = lambda y_true, y_pred, weights: ((y_true - y_pred) ** 2 * weights).mean()
+    if is_bce:
+        loss = lambda y_true, y_pred, weights: torch.nn.BCELoss()(y_pred, y_true)
 
-    model = Model(X_train.shape[1], hidden_dim=100).to(device)
+    model = Model(X_train.shape[1], hidden_dim=100, output_logits=is_bce).to(device)
 
     for p in model.parameters():
         if clip_value is not None:
@@ -89,7 +92,6 @@ def train(X_train, y_train, X_test=None, weights=None, lr=.001, epochs=200, retu
     return easy_model(X_test)
 
 def estimate_propensity(X, treatment):
-    loss = lambda y_true, y_pred, weights: torch.nn.BCELoss()(y_pred, y_true)
-    propensity = train(X, treatment, X, loss=loss)
+    propensity = train(X, treatment, X, is_bce=True)
     # Clip propensity to avoid numerical instability
     return propensity.clip(.01, .99)

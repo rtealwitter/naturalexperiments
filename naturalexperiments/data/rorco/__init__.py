@@ -25,9 +25,11 @@ def load_rorco():
     treatment_variable = 'is_RORCO'
 
     z = data[treatment_variable].values
+    y_all = data[outcome_variable].values
+    y_all = (y_all - y_all.mean()) / y_all.std()
     y = pd.DataFrame({
-        'y1' : data[outcome_variable].values * z,
-        'y0' : data[outcome_variable].values * (1-z)
+        'y1' : y_all * z,
+        'y0' : y_all * (1-z)
     }, dtype=float)
 
     X = data.drop(columns = [treatment_variable, outcome_variable, 'num_from_RORCO'])
