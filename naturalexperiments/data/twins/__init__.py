@@ -1,6 +1,7 @@
 import os
 import pickle as pkl
 import pandas as pd
+import requests
 
 def load_twins():
     filename = __file__.replace('__init__.py', 'twins_data.csv')
@@ -9,6 +10,9 @@ def load_twins():
         print('Downloading twins data...')
         # Download the data
         url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/twins/twins_data.csv'
+
+        r = requests.get(url)
+        open(filename, 'wb').write(r.content) 
 
     data = pd.read_csv(filename)
 

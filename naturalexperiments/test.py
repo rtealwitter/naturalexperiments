@@ -11,6 +11,7 @@ def test(dataset, method_name):
     estimate = methods[method_name](X, y, z, p, train)
 
 if __name__ == '__main__':
-    dataset = 'NEWS'
     method_name = 'Regression Discontinuity'
+    dataset = 'TWINS'
+    #for dataset in dataloaders:
     test(dataset, method_name)
