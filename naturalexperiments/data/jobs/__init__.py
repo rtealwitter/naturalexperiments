@@ -1,11 +1,20 @@
 import pickle as pkl
 import pandas as pd
 import os
+import requests
 
 def load_jobs():
-    filename = __file__.replace('__init__.py', 'jobs_data.pkl')
+    filename = __file__.replace('__init__.py', 'jobs_data.csv')
 
-    data = pkl.load(open(filename, 'rb'))
+    if not os.path.exists(filename):
+        print('Downloading Jobs data...')
+        # Download the data 
+        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/jobs/jobs_data.csv'
+
+        r = requests.get(url)
+        open(filename, 'wb').write(r.content)
+
+    data = pd.read_csv(filename) 
 
     z = data['treat'].values
     y = pd.DataFrame({

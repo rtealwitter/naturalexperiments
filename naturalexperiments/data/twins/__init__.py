@@ -3,9 +3,14 @@ import pickle as pkl
 import pandas as pd
 
 def load_twins():
-    filename = __file__.replace('__init__.py', 'twins_data.pkl')
+    filename = __file__.replace('__init__.py', 'twins_data.csv')
 
-    data = pkl.load(open(filename, 'rb'))
+    if not os.path.exists(filename):
+        print('Downloading twins data...')
+        # Download the data
+        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/twins/twins_data.csv'
+
+    data = pd.read_csv(filename)
 
     # Drop cols with too many missing values
     nan_cols = data.isnull().sum() > 10000
@@ -21,7 +26,7 @@ def load_twins():
 
     cols_to_drop = [x for x in data.columns if '_0' in x or '_1' in x]
 
-    X = data.drop(columns=cols_to_drop)
+    X = data.drop(columns=cols_to_drop).values
 
     return X, y, z 
 

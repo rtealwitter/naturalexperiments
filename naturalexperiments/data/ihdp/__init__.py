@@ -1,14 +1,20 @@
 import os
 import pickle as pkl
 import pandas as pd
+import requests
 
 def load_ihdp(num=1):
     assert num in range(1,11), "Invalid dataset number"
-    filename = __file__.replace('__init__.py', 'ihdp_data.pkl')
+    filename = __file__.replace('__init__.py', f'ihdp_data_{num}.csv')
 
-    datasets = pkl.load(open(filename, 'rb'))
+    if not os.path.exists(filename):
+        print('Downloading IHDP data...')
+        url = f'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/ihdp/ihdp_data_{num}.csv'
 
-    data = datasets[num-1]
+        r = requests.get(url)
+        open(filename, 'wb').write(r.content)
+    
+    data = pd.read_csv(filename)
 
     z = data['treatment'].values
 
