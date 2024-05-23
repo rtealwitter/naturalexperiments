@@ -10,7 +10,7 @@ def load_news(num=1):
     if not os.path.exists(filename):
         print('Downloading News data...')
         # Download the data 
-        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/news/news_data.csv'
+        url = f'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/news/news_data_{num}.csv'
 
         r = requests.get(url)
         open(filename, 'wb').write(r.content)
