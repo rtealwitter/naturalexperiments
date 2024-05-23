@@ -1,6 +1,4 @@
-from data import dataloaders
-from model import train, estimate_propensity
-from estimators import methods
+from naturalexperiments import *
 import numpy as np
 
 def test(dataset, method_name):
@@ -11,6 +9,9 @@ def test(dataset, method_name):
     estimate = methods[method_name](X, y, z, p, train)
 
 if __name__ == '__main__':
+    #dataset_table(dataloaders, print_md=True, print_latex=True)
+    #plot_all_data(dataloaders)
+    
     method_name = 'Regression Discontinuity'
     dataset = 'TWINS'
     #for dataset in dataloaders:

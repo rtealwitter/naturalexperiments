@@ -97,13 +97,13 @@ def wrap_estimate_propensity(X, z):
         beta = np.random.normal(size=X.shape[1])
         var = X @ beta
         propensity = (var - var.min() ) / (var.max() - var.min())
-        propensity = np.clip(propensity.values, 0.01,.99)
+        propensity = np.clip(propensity, 0.01,.99)
         # Sample z from a Bernoulli distribution with propensity
         z = np.random.binomial(1, propensity)
     
     return propensity, z
 
-def plot_all_data(dataloaders, folder='../images/'):
+def plot_all_data(dataloaders, folder=''):
     for dataname, dataloader in dataloaders.items(): 
         X, y, z = dataloader()
 
@@ -129,8 +129,10 @@ def dataset_table(dataloaders, print_md=True, print_latex=False):
         # Cross entropy of propensity score and z
         cross_entropy = sig_round(compute_cross_entropy(propensity, z))
         # Correlation between propensity and y1
+        #corr_y1 = sig_round(np.corrcoef(propensity[z==1], y['y1'][z==1])[0,1])
         corr_y1 = sig_round(compute_distance_correlation(propensity[z==1], y['y1'][z==1].values))
         # Correlation between propensity and y0
+        #corr_y0 = sig_round(np.corrcoef(propensity[z==0], y['y0'][z==0])[0,1])
         corr_y0 = sig_round(compute_distance_correlation(propensity[z==0], y['y0'][z==0].values))
 
         table += [[dataname, n, m, rate_treated, cross_entropy, corr_y1, corr_y0]]
