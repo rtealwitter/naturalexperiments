@@ -53,10 +53,10 @@ def plot_outcome_by_propensity(propensity, y, z, dataset, filename=None):
     for i in range(num_buckets):
         bucket = (propensity >= percentiles[i]) & (propensity < percentiles[i+1])
         treatment_in_bucket = np.sum(z * bucket)
-        treatment_outcomes.append(np.sum(y['y1'][bucket]) / treatment_in_bucket)
+        treatment_outcomes.append(np.sum((y['y1']*z)[bucket]) / treatment_in_bucket)
         treatment_sizes.append(treatment_in_bucket/total_size * 500)
         control_in_bucket = np.sum((1-z) * bucket)
-        control_outcomes.append(np.sum(y['y0'][bucket]) / control_in_bucket)
+        control_outcomes.append(np.sum((y['y0']*(1-z))[bucket]) / control_in_bucket)
         control_sizes.append(control_in_bucket / total_size * 500)
     plt.scatter(plot_percentiles, treatment_outcomes, s=treatment_sizes, color='teal')
     plt.plot(plot_percentiles, treatment_outcomes, label='Treatment', color='teal', linewidth=3)
@@ -129,11 +129,11 @@ def dataset_table(dataloaders, print_md=True, print_latex=False):
         # Cross entropy of propensity score and z
         cross_entropy = sig_round(compute_cross_entropy(propensity, z))
         # Correlation between propensity and y1
-        #corr_y1 = sig_round(np.corrcoef(propensity[z==1], y['y1'][z==1])[0,1])
-        corr_y1 = sig_round(compute_distance_correlation(propensity[z==1], y['y1'][z==1].values))
+        corr_y1 = sig_round(np.corrcoef(propensity[z==1], y['y1'][z==1])[0,1])
+        #corr_y1 = sig_round(compute_distance_correlation(propensity[z==1], y['y1'][z==1].values))
         # Correlation between propensity and y0
-        #corr_y0 = sig_round(np.corrcoef(propensity[z==0], y['y0'][z==0])[0,1])
-        corr_y0 = sig_round(compute_distance_correlation(propensity[z==0], y['y0'][z==0].values))
+        corr_y0 = sig_round(np.corrcoef(propensity[z==0], y['y0'][z==0])[0,1])
+        #corr_y0 = sig_round(compute_distance_correlation(propensity[z==0], y['y0'][z==0].values))
 
         table += [[dataname, n, m, rate_treated, cross_entropy, corr_y1, corr_y0]]
 
