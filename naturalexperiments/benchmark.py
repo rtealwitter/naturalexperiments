@@ -2,7 +2,7 @@ from tqdm import tqdm
 import time
 from .model import estimate_propensity, train
 from .data import dataloaders
-from .utils import compute_cross_entropy, compute_distance_correlation
+from .utils import compute_cross_entropy, compute_distance_correlation, build_synthetic_outcomes, biased_treatment_effect, sigmoid
 import numpy as np
 import sklearn.preprocessing
 import pandas as pd
@@ -111,32 +111,6 @@ def plot_estimates(run_estimates, xlabel, figure_name, folder, show=False, save=
 
 # # # SYNTHETIC OUTCOMES # # #
 
-def biased_treatment_effect(x, scaling=1):
-    # No effect on first half
-    # Second half has effect of sqrt(x) * scaling
-    adjustment = .5 - np.sqrt(.5) * scaling
-    line = x * (x<.5).astype(int) + (x>=.5).astype(int) * (scaling * np.sqrt(x) + adjustment)
-    return line
-
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-# Build problem where treatment and outcome are correlated
-def build_synthetic_outcomes(X, scale=True):
-    if scale:
-        X = sklearn.preprocessing.StandardScaler().fit(X).transform(X)
-
-    b = np.random.normal(size=X.shape[1])
-    important_variable = X @ b
-    p = sigmoid(important_variable)
-    p = np.clip(p, 0.01, .99) # regularize
-
-    y = pd.DataFrame({
-        'y0' : 1-p,
-        'y1' : 1-biased_treatment_effect(p)
-    }, dtype=float)
-    return X, y, p
-
 def wrap_dataloader(dataset, num):
     if dataset == 'IHDP':
         X, y, z = dataloaders['IHDP'](num % 10 + 1)
@@ -151,74 +125,94 @@ def wrap_dataloader(dataset, num):
 
 # # # VARIANCE BENCHMARK # # #
 
-def compute_variance(methods, dataset, num_runs=10, train_fn=train, variance=None, times=None):
-    if variance is None: 
-        variance = {method: [] for method in methods}
-        times = {method: [] for method in methods}
+def subsample(X, y, z, n):
+    # Some methods are slow so we subsample
+    sample_indices = np.random.choice(X.shape[0], n, replace=False)
+    return X[sample_indices], y.iloc[sample_indices].reset_index(drop=True), z[sample_indices]
 
-    for method in methods:
-        if method not in variance:
-            variance[method] = []
-            times[method] = []    
+def compute_estimates(methods, dataset, num_runs=10, train_fn=train, folder='', return_error=False, limit=5000):
+    if return_error:
+        filename = folder + f'/variance_{dataset}.csv'
+    else: 
+        filename = folder + f'/estimates_{dataset}.csv'
 
     for num in tqdm(range(num_runs)): 
         X, y, z = wrap_dataloader(dataset, num)
+        X, y, z = subsample(X, y, z, limit)
         p_estimated = estimate_propensity(X, z)
         true_effect = (y['y1'] - y['y0']).mean()
  
+        saved = {}
         for method, get_estimate in methods.items():
-            if len(variance[method]) < num_runs:
-                time_start = time.time()
-                estimate = get_estimate(X, y, z, p_estimated, train_fn)
-                square_difference = (estimate - true_effect)**2
-                run_time = time.time() - time_start            
-                variance[method].append(square_difference) 
-                times[method].append(run_time)
-                print(f'{method} variance: {square_difference} time: {run_time}')
+            time_start = time.time()
+            #estimate = get_estimate(X, y, z, p_estimated, train_fn)
+            estimate = np.random.uniform()
+            square_difference = (estimate - true_effect)**2
+            run_time = time.time() - time_start            
+            if return_error:
+                saved[method] = (square_difference, run_time)
+            else:
+                saved[method] = (estimate, run_time)
+        with open(filename, 'a') as f:
+            f.write(str(saved) + '\n')
+    
+    
+    output, times = {}, {}
+    with open(filename, 'r') as f:
+        saved = eval(f.readline())
+        for method in saved:
+            if method not in output:
+                output[method] = []
+                times[method] = []
+            output[method] += [saved[method][0]]
+            times[method] += [saved[method][1]]
 
-    return variance, times
+    return output, times
 
-def compute_variance_by_n(methods, dataset, ns, num_runs=10, train_fn=train, variance=None):
-    if variance is None: 
-        variance = {}
+def compute_variance(methods, dataset, num_runs=10, train_fn=train, folder='', limit=5000):
+    return compute_estimates(methods, dataset, num_runs=num_runs, train_fn=train_fn, folder=folder, return_error=True, limit=limit)
 
-    for method in methods:
-        if method not in variance:
-            variance[method] = {n : [] for n in ns} 
-        for n in ns:
-            if n not in variance[method]:
-                variance[method][n] = []
+def compute_variance_by_n(methods, dataset, ns, num_runs=10, train_fn=train, folder='', limit=5000):
+    filename = folder + f'/variance_by_n_{dataset}.csv'
 
     for num in tqdm(range(num_runs)): 
         for i, n in enumerate(ns):
             X, y, z = wrap_dataloader(dataset, num + i*len(ns))
-            sample_indices = np.random.choice(X.shape[0], n, replace=False)
-            X, y, z = X[sample_indices], y.iloc[sample_indices], z[sample_indices]
-            # Reset index for y
-            y = y.reset_index(drop=True)
+            X, y, z = subsample(X, y, z, n)
 
             p_estimated = estimate_propensity(X, z)
             true_effect = (y['y1'] - y['y0']).mean()
     
+            saved = {'n':n}
             for method, get_estimate in methods.items():
-                if len(variance[method][n]) < num_runs:
-                    estimate = get_estimate(X, y, z, p_estimated, train_fn)
-                    square_difference = (estimate - true_effect)**2
-                    variance[method][n].append(square_difference) 
+                #estimate = get_estimate(X, y, z, p_estimated, train_fn)
+                estimate = np.random.uniform()
+                square_difference = (estimate - true_effect)**2
+                saved[method] = square_difference
+            with open(filename, 'a') as f:
+                f.write(str(saved) + '\n')
+    
+    output = {}
+    with open(filename, 'r') as f:
+        saved = eval(f.readline())
+        for method in saved:
+            if method not in output:
+                output[method] = {}
+            n = saved['n']
+            if n not in output[method]:
+                output[method][n] = []
+            output[method][n] += [saved[method]]
 
-    return variance
+    return output
 
-def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .5], increment=.1, num_runs=10, train_fn = train, variance=None):
-    if variance is None: 
-        variance = {}
+def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .5], increment=.1, num_runs=10, train_fn = train, folder='', limit=5000):
 
-    for method in methods:
-        if method not in variance:
-            variance[method] = {}
+    filename = folder + f'/variance_by_entropy_{dataset}.csv'
 
     for _ in tqdm(range(num_runs)): 
         for noise_level in noise_levels:
-            X, _, _ = dataloaders[dataset]()
+            X, y, z = dataloaders[dataset]()
+            X, _, _ = subsample(X, y, z, limit)
 
             # Need to know propensity to add noise
             X, y, p = build_synthetic_outcomes(X)
@@ -234,27 +228,36 @@ def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .
 
             true_effect = (y['y1'] - y['y0']).mean()
     
+            saved = {'cross_entropy':cross_entropy}
             for method, get_estimate in methods.items():
-                if cross_entropy not in variance[method]:
-                    variance[method][cross_entropy] = []
-                if len(variance[method][cross_entropy]) < num_runs:
-                    estimate = get_estimate(X, y, z, noised_p, train_fn)
-                    square_difference = (estimate - true_effect)**2
-                    variance[method][cross_entropy].append(square_difference) 
+                #estimate = get_estimate(X, y, z, noised_p, train_fn)
+                estimate = np.random.uniform()
+                square_difference = (estimate - true_effect)**2
+                saved[method] = square_difference
+            with open(filename, 'a') as f:
+                f.write(str(saved) + '\n')
 
-    return variance
+    output = {}
+    with open(filename, 'r') as f:
+        saved = eval(f.readline())
+        for method in saved:
+            if method not in output:
+                output[method] = {}
+            cross_entropy = saved['cross_entropy']
+            if cross_entropy not in output[method]:
+                output[method][cross_entropy] = []
+            output[method][cross_entropy] += [saved[method]]        
 
-def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .35, .5], increment=.1, num_runs=10, train_fn = train, variance=None):
-    if variance is None: 
-        variance = {}
+    return output
 
-    for method in methods:
-        if method not in variance:
-            variance[method] = {}
+def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .35, .5], increment=.1, num_runs=10, train_fn = train, folder='', limit=5000):
+
+    filename = folder + f'/variance_by_correlation_{dataset}.csv'
 
     for _ in tqdm(range(num_runs)): 
         for alpha in alphas:
-            X, _, _ = dataloaders[dataset]()
+            X, y, z = dataloaders[dataset]()
+            X, _, _ = subsample(X, y, z, limit)
 
             b = np.random.normal(size=X.shape[1])
             important_variable = X @ b
@@ -271,10 +274,7 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
             uniform = np.random.random_sample(X.shape[0])
             z = (uniform < p).astype(int)
 
-            correlation = (
-                compute_distance_correlation(y['y0'][z==0], p[z==0]) + \
-                compute_distance_correlation(y['y1'][z==1], p[z==1])
-            )
+            correlation = (np.abs(np.corrcoef(y['y1'], p)[0,1]) + np.abs(np.corrcoef(y['y0'], p)[0,1]))/2
 
             correlation = np.round(correlation / increment) * increment
 
@@ -282,12 +282,26 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
 
             true_effect = (y['y1'] - y['y0']).mean()
     
+            correlation = np.round(correlation / increment) * increment
+            saved = {'correlation':correlation}
             for method, get_estimate in methods.items():
-                if correlation not in variance[method]:
-                    variance[method][correlation] = []
-                if len(variance[method][correlation]) < num_runs:
-                    estimate = get_estimate(X, y, z, p_estimated, train_fn)
-                    square_difference = (estimate - true_effect)**2
-                    variance[method][correlation].append(square_difference) 
+                #estimate = get_estimate(X, y, z, p_estimated, train_fn)
+                estimate = np.random.uniform()
+                square_difference = (estimate - true_effect)**2
+                estimate
+                saved[method] = square_difference
+            with open(filename, 'a') as f:
+                f.write(str(saved) + '\n')
+    
+    output = {}
+    with open(filename, 'r') as f:
+        saved = eval(f.readline())
+        for method in saved:
+            if method not in output:
+                output[method] = {}
+            correlation = saved['correlation']
+            if correlation not in output[method]:
+                output[method][correlation] = []
+            output[method][correlation] += [saved[method]]
 
-    return variance
+    return output
