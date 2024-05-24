@@ -130,6 +130,8 @@ def wrap_dataloader(dataset, num):
 
 def subsample(X, y, z, n):
     # Some methods are slow so we subsample
+    if n <= X.shape[0]:
+        return X, y, z
     sample_indices = np.random.choice(X.shape[0], n, replace=False)
     return X[sample_indices], y.iloc[sample_indices].reset_index(drop=True), z[sample_indices]
 
