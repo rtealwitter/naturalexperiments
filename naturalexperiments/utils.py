@@ -1,6 +1,6 @@
 import numpy as np
 import sklearn
-import warnings
+import pandas as pd
 
 def center_distance_matrix(x):
     x = np.expand_dims(x, axis=1)
@@ -31,6 +31,9 @@ def compute_distance_correlation(x, y, limit=10000):
 def compute_cross_entropy(p, treatment):
     return - np.mean(treatment * np.log(p) + (1-treatment) * np.log(1-p))
 
+def sig_round(x, precision=3):
+    return np.format_float_positional(x, precision=precision, unique=False, fractional=False, trim='k')
+
 def biased_treatment_effect(x, scaling=1):
     # No effect on first half
     # Second half has effect of sqrt(x) * scaling
@@ -38,5 +41,21 @@ def biased_treatment_effect(x, scaling=1):
     line = x * (x<.5).astype(int) + (x>=.5).astype(int) * (scaling * np.sqrt(x) + adjustment)
     return line
 
-def sig_round(x, precision=3):
-    return np.format_float_positional(x, precision=precision, unique=False, fractional=False, trim='k')
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Build problem where treatment and outcome are correlated
+def build_synthetic_outcomes(X, scale=True):
+    if scale:
+        X = sklearn.preprocessing.StandardScaler().fit(X).transform(X)
+
+    b = np.random.normal(size=X.shape[1])
+    important_variable = X @ b
+    p = sigmoid(important_variable)
+    p = np.clip(p, 0.01, .99) # regularize
+
+    y = pd.DataFrame({
+        'y0' : 1-p,
+        'y1' : 1-biased_treatment_effect(p)
+    }, dtype=float)
+    return X, y, p
