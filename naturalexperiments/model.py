@@ -38,8 +38,7 @@ class CustomDataset(Dataset):
 class Model(torch.nn.Module):
     def __init__(self, input_size, hidden_dim=100, num_layers=3, output_logits=False):
         super(Model, self).__init__()
-        activation = torch.nn.Sigmoid
-        activation = torch.nn.ReLU
+        activation = torch.nn.Sigmoid if output_logits else torch.nn.ReLU
         layers = []
         layers.append(torch.nn.Linear(input_size, hidden_dim))
         layers.append(activation())
@@ -48,7 +47,7 @@ class Model(torch.nn.Module):
             layers.append(activation())            
         layers.append(torch.nn.Linear(hidden_dim, 1))    
         if output_logits:
-            layers.append(torch.nn.Sigmoid())
+            layers.append(activation())
         self.layers = torch.nn.Sequential(*layers)
 
     def forward(self, x):
