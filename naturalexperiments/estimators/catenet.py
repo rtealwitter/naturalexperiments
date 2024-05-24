@@ -10,5 +10,5 @@ def wrap_catenet(model_name):
         t = catenet_models[model_name]()
         t.fit(X, y, w)
         cate_pred = t.predict(X)
-        return cate_pred.mean()
+        return float(cate_pred.mean())
     return get_catenet_estimate

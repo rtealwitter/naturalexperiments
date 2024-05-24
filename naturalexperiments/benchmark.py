@@ -2,7 +2,7 @@ from tqdm import tqdm
 import time
 from .model import estimate_propensity, train
 from .data import dataloaders
-from .utils import compute_cross_entropy, compute_distance_correlation, build_synthetic_outcomes, biased_treatment_effect, sigmoid
+from .utils import compute_cross_entropy, compute_distance_correlation, build_synthetic_outcomes, biased_treatment_effect, sigmoid, sig_round
 import numpy as np
 import sklearn.preprocessing
 import pandas as pd
@@ -17,29 +17,32 @@ def benchmark_table(variance, times, print_md=True, print_latex=False):
         # Sometimes NaNs from one of the CATENet methods
         # Remove NaNs from variance[method]
         variance[method] = [x for x in variance[method] if not np.isnan(x)]
-        mean = round(np.mean(variance[method]))
-        median = round(np.median(variance[method]))
-        upper = round(np.percentile(variance[method], 75))
-        lower = round(np.percentile(variance[method], 25))
-        times_mean = round(np.mean(times[method]))
-        table.append([method, mean, lower, median, upper, times_mean])
+        row = [method]
+        mean = np.mean(variance[method])
+        median = np.median(variance[method])
+        upper = np.percentile(variance[method], 75)
+        lower = np.percentile(variance[method], 25)
+        times_mean = np.mean(times[method])
+        to_add = [mean, lower, median, upper, times_mean]
+        row += [sig_round(x) for x in to_add]
+        table.append(row)
 
     if print_md:
         print(tabulate(table, headers=['Method', 'Mean', '1st Quartile', '2nd Quartile', '3rd Quartile', 'Time (s)'], tablefmt="github"))    
 
     cols = []
-    for i in range(len(table[0])-1):
-        vals = [row[i+1] for row in table]
+    for i in range(1,len(table[0])):
+        vals = [row[i] for row in table]
         cols += [sorted(vals)]
     for row in table:
         print_row = [row[0]]
         for idx in range(1, len(row)):
             if row[idx] == cols[idx-1][0]:
-                print_row.append(r'\textbf{'+row[idx]+'}')
+                print_row.append(r'\textbf{'+str(row[idx])+'}')
             elif row[idx] == cols[idx-1][1]:
-                print_row.append(r'\textit{\textbf{'+row[idx]+'}}')
+                print_row.append(r'\textit{\textbf{'+str(row[idx])+'}}')
             elif row[idx] == cols[idx-1][2]:
-                print_row.append(r'\underline{\textbf{'+row[idx]+'}}')
+                print_row.append(r'\underline{\textbf{'+str(row[idx])+'}}')
             else:
                 print_row.append(row[idx])
         if print_latex:
@@ -158,13 +161,15 @@ def compute_estimates(methods, dataset, num_runs=10, train_fn=train, folder='', 
     
     output, times = {}, {}
     with open(filename, 'r') as f:
-        saved = eval(f.readline())
-        for method in saved:
-            if method not in output:
-                output[method] = []
-                times[method] = []
-            output[method] += [saved[method][0]]
-            times[method] += [saved[method][1]]
+        for line in f:
+            line = line.replace('Array(', '').replace(', dtype=float32)', '')
+            saved = eval(line)
+            for method in saved:
+                if method not in output:
+                    output[method] = []
+                    times[method] = []
+                output[method] += [float(saved[method][0])]
+                times[method] += [saved[method][1]]
 
     return output, times
 
@@ -192,14 +197,16 @@ def compute_variance_by_n(methods, dataset, ns, num_runs=10, train_fn=train, fol
     
     output = {}
     with open(filename, 'r') as f:
-        saved = eval(f.readline())
-        for method in saved:
-            if method not in output:
-                output[method] = {}
-            n = saved['n']
-            if n not in output[method]:
-                output[method][n] = []
-            output[method][n] += [saved[method]]
+        for line in f:
+            line = line.replace('Array(', '').replace(', dtype=float32)', '')
+            saved = eval(line)
+            for method in saved:
+                if method not in output:
+                    output[method] = {}
+                n = saved['n']
+                if n not in output[method]:
+                    output[method][n] = []
+                output[method][n] += [float(saved[method])]
 
     return output
 
@@ -236,14 +243,16 @@ def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .
 
     output = {}
     with open(filename, 'r') as f:
-        saved = eval(f.readline())
-        for method in saved:
-            if method not in output:
-                output[method] = {}
-            cross_entropy = saved['cross_entropy']
-            if cross_entropy not in output[method]:
-                output[method][cross_entropy] = []
-            output[method][cross_entropy] += [saved[method]]        
+        for line in f:
+            line = line.replace('Array(', '').replace(', dtype=float32)', '')
+            saved = eval(line)
+            for method in saved:
+                if method not in output:
+                    output[method] = {}
+                cross_entropy = saved['cross_entropy']
+                if cross_entropy not in output[method]:
+                    output[method][cross_entropy] = []
+                output[method][cross_entropy] += [float(saved[method])]
 
     return output
 
@@ -291,13 +300,15 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
     
     output = {}
     with open(filename, 'r') as f:
-        saved = eval(f.readline())
-        for method in saved:
-            if method not in output:
-                output[method] = {}
-            correlation = saved['correlation']
-            if correlation not in output[method]:
-                output[method][correlation] = []
-            output[method][correlation] += [saved[method]]
+        for line in f:
+            line = line.replace('Array(', '').replace(', dtype=float32)', '')
+            saved = eval(line)
+            for method in saved:
+                if method not in output:
+                    output[method] = {}
+                correlation = saved['correlation']
+                if correlation not in output[method]:
+                    output[method][correlation] = []
+                output[method][correlation] += [float(saved[method])]
 
     return output
