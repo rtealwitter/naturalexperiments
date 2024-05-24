@@ -145,8 +145,7 @@ def compute_estimates(methods, dataset, num_runs=10, train_fn=train, folder='', 
         saved = {}
         for method, get_estimate in methods.items():
             time_start = time.time()
-            #estimate = get_estimate(X, y, z, p_estimated, train_fn)
-            estimate = np.random.uniform()
+            estimate = get_estimate(X, y, z, p_estimated, train_fn)
             square_difference = (estimate - true_effect)**2
             run_time = time.time() - time_start            
             if return_error:
@@ -185,8 +184,7 @@ def compute_variance_by_n(methods, dataset, ns, num_runs=10, train_fn=train, fol
     
             saved = {'n':n}
             for method, get_estimate in methods.items():
-                #estimate = get_estimate(X, y, z, p_estimated, train_fn)
-                estimate = np.random.uniform()
+                estimate = get_estimate(X, y, z, p_estimated, train_fn)
                 square_difference = (estimate - true_effect)**2
                 saved[method] = square_difference
             with open(filename, 'a') as f:
@@ -230,8 +228,7 @@ def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .
     
             saved = {'cross_entropy':cross_entropy}
             for method, get_estimate in methods.items():
-                #estimate = get_estimate(X, y, z, noised_p, train_fn)
-                estimate = np.random.uniform()
+                estimate = get_estimate(X, y, z, noised_p, train_fn)
                 square_difference = (estimate - true_effect)**2
                 saved[method] = square_difference
             with open(filename, 'a') as f:
@@ -285,8 +282,7 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
             correlation = np.round(correlation / increment) * increment
             saved = {'correlation':correlation}
             for method, get_estimate in methods.items():
-                #estimate = get_estimate(X, y, z, p_estimated, train_fn)
-                estimate = np.random.uniform()
+                estimate = get_estimate(X, y, z, p_estimated, train_fn)
                 square_difference = (estimate - true_effect)**2
                 estimate
                 saved[method] = square_difference
