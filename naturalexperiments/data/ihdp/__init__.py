@@ -28,16 +28,13 @@ def load_ihdp(num=1):
     return X, y, z
 
 if __name__ == '__main__':
-    if not os.path.exists('ihdp_data.pkl'):
-        datasets = []
-        url_prefix = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/IHDP/csv/ihdp_npci_"
-        url_suffix = ".csv" 
-        colnames = ['treatment', 'y_factual', 'y_cfactual', 'mu0', 'mu1']
-        for i in range(1,26):
-            colnames += ['x' + str(i)]
+    url_prefix = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/IHDP/csv/ihdp_npci_"
+    url_suffix = ".csv" 
+    colnames = ['treatment', 'y_factual', 'y_cfactual', 'mu0', 'mu1']
+    for i in range(1,26):
+        colnames += ['x' + str(i)]
 
-        for i in range(1,11):
-            url = url_prefix + str(i) + url_suffix
-            data = pd.read_csv(url, header=None, names=colnames)
-            datasets.append(data)
-        pkl.dump(datasets, open('ihdp_data.pkl', 'wb'))
+    for i in range(1,11):
+        url = url_prefix + str(i) + url_suffix
+        data = pd.read_csv(url, header=None, names=colnames)
+        data.to_csv(f'ihdp_data_{i}.csv', index=False)

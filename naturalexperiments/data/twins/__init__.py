@@ -35,17 +35,16 @@ def load_twins():
     return X, y, z 
 
 if __name__ == '__main__':
-    if not os.path.exists('twins_data.pkl'):
-        url_weight = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_T_3years_samesex.csv"
+    url_weight = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_T_3years_samesex.csv"
 
-        url_X = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_X_3years_samesex.csv"
+    url_X = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_X_3years_samesex.csv"
 
-        url_y = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_Y_3years_samesex.csv"
+    url_y = "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/9081f863e24ce21bd34c8d6a41bf0edc7d1b65dd/datasets/TWINS/twin_pairs_Y_3years_samesex.csv"
 
-        weight = pd.read_csv(url_weight) # Birth weight 
-        X = pd.read_csv(url_X) # Covariates
-        y = pd.read_csv(url_y) # Mortality (binary)
+    weight = pd.read_csv(url_weight) # Birth weight 
+    X = pd.read_csv(url_X) # Covariates
+    y = pd.read_csv(url_y) # Mortality (binary)
 
-        data = pd.concat([weight, X, y], axis=1).drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+    data = pd.concat([weight, X, y], axis=1).drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 
-        pkl.dump(data, open('twins_data.pkl', 'wb'))
+    data.to_csv('twins_data.csv', index=False)

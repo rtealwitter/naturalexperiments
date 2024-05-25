@@ -4,15 +4,16 @@ import pickle as pkl
 import numpy as np
 import requests
 
-def load_acic():
+def load_acic(year):
     # Print absolute path
     # Get absolute path to this file
-    filename = __file__.replace('__init__.py', 'acic_data.csv')
+    assert year in ['16', '17'], "Year must be '16' or '17'"
+    filename = __file__.replace('__init__.py', f'acic{year}_data.csv')
 
     if not os.path.exists(filename):
         print('Downloading ACIC data...')
         # Download the data 
-        url = 'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/acic/acic_data.csv'
+        url = f'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/acic/acic{year}_data.csv'
 
         r = requests.get(url)
         open(filename, 'wb').write(r.content)
@@ -24,8 +25,7 @@ def load_acic():
     data = data.astype(np.float32)
 
     # Set data type of columns to float32
-    
-    
+
     # No data description available
     # Assuming the first binary column is the treatment indicator
     binary_cols = []
@@ -49,17 +49,25 @@ def load_acic():
 
     return X, y, z
 
+def load_acic16():
+    return load_acic('16')
+
+def load_acic17():
+    return load_acic('17')
+
 if __name__ == '__main__':
-    if os.path.exists('input_2016.RData'):
-        import rdata
-        parsed = rdata.parser.parse_file('input_2016.RData')
+    for year in ['16', '17']:
+        if os.path.exists(f'input_20{year}.RData'):
+            import rdata
+            parsed = rdata.parser.parse_file(f'input_20{year}.RData')
 
-        converted = rdata.conversion.convert(parsed)
+            converted = rdata.conversion.convert(parsed)
 
-        data = pd.DataFrame(converted['input_2016'])
+            data = pd.DataFrame(converted[f'input_20{year}'])
 
-        pkl.dump(data, open('acic_data.pkl', 'wb'))
-    else:
-        print('Please download the ACIC data from https://github.com/vdorie/aciccomp/blob/master/2016/data/input_2016.RData')
-        print('Place the input_2016.RData file in the data folder')
-        print('Then run this script again')
+            data.to_csv(f'acic{year}_data.csv', index=False)
+        else: 
+            print(f'Please download the ACIC{year} data from https://github.com/vdorie/aciccomp/blob/master/20{year}/data/input_20{year}.RData')
+            print(f'Place the input_20{year}.RData file in the data folder')
+            print('Then run this script again')
+   

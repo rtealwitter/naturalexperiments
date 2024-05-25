@@ -27,15 +27,15 @@ def load_jobs():
     return X, y, z
 
 if __name__ == '__main__':
-    if not os.path.exists('jobs_data.pkl'):
-        url_treatment = "https://users.nber.org/~rdehejia/data/nsw_treated.txt"
-        url_control = "https://users.nber.org/~rdehejia/data/nsw_control.txt"
 
-        col_names = ["treat", "age", "educ", "black", "hisp", "married", "nodegr", "re75", "re78"]
+    url_treatment = "https://users.nber.org/~rdehejia/data/nsw_treated.txt"
+    url_control = "https://users.nber.org/~rdehejia/data/nsw_control.txt"
 
-        treatment = pd.read_csv(url_treatment, names=col_names, sep="  ", engine='python')
-        control = pd.read_csv(url_control, names=col_names, sep="  ", engine='python')
+    col_names = ["treat", "age", "educ", "black", "hisp", "married", "nodegr", "re75", "re78"]
 
-        data = pd.concat([treatment, control], ignore_index=True)
+    treatment = pd.read_csv(url_treatment, names=col_names, sep="  ", engine='python')
+    control = pd.read_csv(url_control, names=col_names, sep="  ", engine='python')
 
-        pkl.dump(data, open('jobs_data.pkl', 'wb'))
+    data = pd.concat([treatment, control], ignore_index=True)
+
+    data.to_csv('jobs_data.csv', index=False)
