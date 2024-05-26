@@ -18,6 +18,8 @@ methods = {
     'Horvitz-Thompson' : compute_horvitz_thompson,
     'Doubly Robust' : compute_doubly_robust,
     'TMLE' : compute_TMLE,
+    'Off-policy' : compute_off_policy,
+    'Double-Double' : compute_double_double,
     'Direct Prediction' : compute_direct_prediction,
     'SNet' : wrap_catenet('SNet'),
     'FlexTENet' : wrap_catenet('FlexTENet'),
@@ -31,6 +33,4 @@ methods = {
     'PWNet' : wrap_catenet('PWNet'),
     'RNet' : wrap_catenet('RNet'),
     'XNet' : wrap_catenet('XNet'),
-    'Off-policy' : compute_off_policy,
-    'Double-Double' : compute_double_double,
 }
