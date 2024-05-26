@@ -130,7 +130,7 @@ def wrap_dataloader(dataset, num):
 
 def subsample(X, y, z, n):
     # Some methods are slow so we subsample
-    if n <= X.shape[0]:
+    if n >= X.shape[0]:
         return X, y, z
     sample_indices = np.random.choice(X.shape[0], n, replace=False)
     return X[sample_indices], y.iloc[sample_indices].reset_index(drop=True), z[sample_indices]
@@ -164,6 +164,7 @@ def compute_estimates(methods, dataset, num_runs=10, train_fn=train, folder='', 
     output, times = {}, {}
     with open(filename, 'r') as f:
         for line in f:
+            if 'nan' in line: continue
             line = line.replace('Array(', '').replace(', dtype=float32)', '')
             saved = eval(line)
             for method in saved:
@@ -200,9 +201,11 @@ def compute_variance_by_n(methods, dataset, ns, num_runs=10, train_fn=train, fol
     output = {}
     with open(filename, 'r') as f:
         for line in f:
+            if 'nan' in line: continue
             line = line.replace('Array(', '').replace(', dtype=float32)', '')
             saved = eval(line)
             for method in saved:
+                if method == 'n': continue
                 if method not in output:
                     output[method] = {}
                 n = saved['n']
@@ -246,9 +249,11 @@ def compute_variance_by_entropy(methods, dataset, noise_levels=[0, .2, .3, .4, .
     output = {}
     with open(filename, 'r') as f:
         for line in f:
+            if 'nan' in line: continue
             line = line.replace('Array(', '').replace(', dtype=float32)', '')
             saved = eval(line)
             for method in saved:
+                if method == 'cross_entropy': continue
                 if method not in output:
                     output[method] = {}
                 cross_entropy = saved['cross_entropy']
@@ -282,7 +287,12 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
             uniform = np.random.random_sample(X.shape[0])
             z = (uniform < p).astype(int)
 
-            correlation = (np.abs(np.corrcoef(y['y1'], p)[0,1]) + np.abs(np.corrcoef(y['y0'], p)[0,1]))/2
+            # Compute distance correlation between p and y1, y0
+
+            corr1 = compute_distance_correlation(p, y['y1'])
+            corr0 = compute_distance_correlation(p, y['y0'])
+
+            correlation = (corr1 + corr0) / 2
 
             correlation = np.round(correlation / increment) * increment
 
@@ -303,9 +313,11 @@ def compute_variance_by_correlation(methods, dataset, alphas=[0, .15, .2, .25, .
     output = {}
     with open(filename, 'r') as f:
         for line in f:
+            if 'nan' in line: continue
             line = line.replace('Array(', '').replace(', dtype=float32)', '')
             saved = eval(line)
             for method in saved:
+                if method == 'correlation': continue
                 if method not in output:
                     output[method] = {}
                 correlation = saved['correlation']
