@@ -15,7 +15,7 @@ def load_acic(year):
         # Download the data 
         url = f'https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/acic/acic{year}_data.csv'
 
-        r = requests.get(url)
+        r = requests.get(url, timeout=10)
         open(filename, 'wb').write(r.content)
     
     data = pd.read_csv(filename)
@@ -32,7 +32,7 @@ def load_acic(year):
     for col in data.columns:
         if data[col].nunique() == 2:
             binary_cols += [col]
-    binary_col = binary_cols[0]
+    binary_col = binary_cols[0] if year == '16' else 'x_15'
 
     z = data[binary_col].values
 

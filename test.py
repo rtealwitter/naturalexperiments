@@ -9,7 +9,7 @@ def test(dataset, method_name):
     estimate = methods[method_name](X, y, z, p, train)
 
 if __name__ == '__main__':
-    #dataset_table(dataloaders, print_md=True, print_latex=True)
+    dataset_table(dataloaders, print_md=True, print_latex=True)
     #plot_all_data(dataloaders, folder='output')
     
     method_name = 'Double-Double'
