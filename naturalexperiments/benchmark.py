@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # # # VARIANCE BENCHMARK TABLE # # #
 
-def benchmark_table(variance, times, print_md=True, print_latex=False):
+def benchmark_table(variance, times, print_md=True, print_latex=False, filename=None):
     table = []
     for method in variance:
         # Sometimes NaNs from one of the CATENet methods
@@ -34,6 +34,12 @@ def benchmark_table(variance, times, print_md=True, print_latex=False):
     for i in range(1,len(table[0])):
         vals = [row[i] for row in table]
         cols += [sorted(vals)]
+    if filename is not None:
+        with open(filename, 'w') as f:
+            f.write('\\begin{tabular}{|l|l|l|l|l|l|}\n')
+            f.write('  \\hline\n')
+            f.write('  \\textbf{Method} & \\textbf{Mean} & \\textbf{1st Quartile} & \\textbf{2nd Quartile} & \\textbf{3rd Quartile} & \\textbf{Time (s)} \\\\ \\hline\n')
+
     for row in table:
         print_row = [row[0]]
         for idx in range(1, len(row)):
@@ -46,7 +52,14 @@ def benchmark_table(variance, times, print_md=True, print_latex=False):
             else:
                 print_row.append(row[idx])
         if print_latex:
-            print(' & '.join(print_row) + '\\\\ \hline')
+            to_print = ' & '.join(print_row) + '\\\\ \hline'
+            print(to_print)
+            if filename is not None:
+                with open(filename, 'a') as f:
+                    f.write(to_print + '\n')
+    if filename is not None:
+        with(open(filename, 'a')) as f:
+            f.write('\\end{tabular}')
 
 # # # VARIANCE PLOTS # # #
 
@@ -117,9 +130,22 @@ def plot_estimates(run_estimates, xlabel, figure_name, folder, show=False, save=
 def wrap_dataloader(dataset, num):
     if dataset == 'IHDP':
         X, y, z = dataloaders['IHDP'](num % 10 + 1)
-    if dataset == 'NEWS':
+    elif dataset == 'TWINS':
+        X, y, _ = dataloaders['TWINS']()
+        beta = np.random.normal(size=X.shape[1])
+        var = X @ beta
+        propensity = (var - var.min() ) / (var.max() - var.min())
+        propensity = np.clip(propensity, 0.01,.99)
+        # Sample z from a Bernoulli distribution with propensity
+        z = np.random.binomial(1, propensity)
+
+    # For datasets where outcomes only known for treatment or control but not both
+    elif dataset == 'NEWS':
         X, y, z = dataloaders['NEWS'](num % 50 + 1)
-    else: # For datasets where outcomes only known for treatment or control but not both
+        X, y, p = build_synthetic_outcomes(X)
+        uniform = np.random.random_sample(X.shape[0])
+        z = (uniform < p).astype(int)
+    else:
         X, _, _ = dataloaders[dataset]()
         X, y, p = build_synthetic_outcomes(X)
         uniform = np.random.random_sample(X.shape[0])
@@ -142,7 +168,10 @@ def compute_estimates(methods, dataset, num_runs=10, train_fn=train, folder='', 
         filename = folder + f'/estimates_{dataset}.csv'
 
     for num in tqdm(range(num_runs)): 
-        X, y, z = wrap_dataloader(dataset, num)
+        if return_error:
+            X, y, z = wrap_dataloader(dataset, num)
+        else:
+            X, y, z = dataloaders[dataset]()
         X, y, z = subsample(X, y, z, limit)
         p_estimated = estimate_propensity(X, z)
         true_effect = (y['y1'] - y['y0']).mean()

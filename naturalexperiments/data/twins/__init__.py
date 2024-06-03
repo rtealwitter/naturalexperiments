@@ -2,6 +2,7 @@ import os
 import pickle as pkl
 import pandas as pd
 import requests
+import numpy as np
 
 def load_twins():
     filename = __file__.replace('__init__.py', 'twins_data.csv')
