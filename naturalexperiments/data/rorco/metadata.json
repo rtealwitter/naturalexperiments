@@ -1,0 +1,879 @@
+{
+    "@type": "sc:Dataset",
+    "name": "RORCO Dataset",
+    "description": "A dataset based on the RORCO natural experiment.",
+    "license": "https://github.com/rtealwitter/naturalexperiments/blob/main/LICENSE",
+    "url": "https://github.com/rtealwitter/naturalexperiments",
+    "distribution": [
+        {
+            "@type": "Cr:FileObject",
+            "@id": "rorco_data.csv",
+            "name": "rorco_data.csv",
+            "contentUrl": "https://raw.githubusercontent.com/rtealwitter/naturalexperiments/main/naturalexperiments/data/rorco/rorco_data.csv",
+            "encodingFormat": "text/csv",
+            "dateModified": "2024-06-03"
+        }
+    ],
+    "recordSet": {
+        "@type": "sc:RecordSet",
+        "name": "RORCO Column Names",
+        "description": "The columns in the RORCO dataset.",
+        "field": [
+            {
+                "@type": "sc:Dataset",
+                "name": "triple_index",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Academic Year",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "State/District/School",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Test Name",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Subject",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "School",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Grade",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Score Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Mean Scale Score",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Standard Deviation",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "% Participation",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "School Code",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Charter Y/N",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Physical Address",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "City",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "State",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Zip Code",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Phone",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Low grade",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "High grade",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Congressional District",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "District Setting",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Combined Address",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Latitude",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Longitude",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "geometry",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "COUNTY CODE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "COUNTY NAME",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "DISTRICT CODE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "DISTRICT NAME\t",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "SCHOOL NAME",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "FREE LUNCH",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "REDUCED LUNCH",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "PAID LUNCH",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "FREE AND REDUCED COUNT",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "% FREE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "% REDUCED",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "% FREE AND REDUCED",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "FRL % RANGE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "SPED Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "SPED Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "EL Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "EL Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Homeless Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Homeless Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Gifted and Talented Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "GT Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Online Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Online Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Section 504 Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Section 504 Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Immigrant Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Immigrant Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Migrant Count",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Migrant Pct",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Distr Code",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Distr Name",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Pre-K",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Half-Day K",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Full-Day K",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "1st",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "2nd",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "3rd",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "4th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "5th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "6th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "7th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "8th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "9th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "10th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "11th",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "School Year",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total Days in Session Reported",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Attendance Rate*",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Truancy Rate** ",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total Days Attended for all Students",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total Student Days Excused Absence for all Students",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total Student Days Unexcused Absence for all Students",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total Days Possible Attendance for all Students",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "County Code",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "County Name",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "School Name",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Teacher FTE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Pupil/Teacher FTE Ratio",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "District Code",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "District",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "object",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total FTE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": null,
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Average Salary",
+                "description": "A field in the RORCO dataset.",
+                "dataType": null,
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Total FTE",
+                "description": "A field in the RORCO dataset.",
+                "dataType": null,
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Average Salary",
+                "description": "A field in the RORCO dataset.",
+                "dataType": null,
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "num_from_RORCO",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "float64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "Capacity",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "is_RORCO",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "nearby_students",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            },
+            {
+                "@type": "sc:Dataset",
+                "name": "is_rural",
+                "description": "A field in the RORCO dataset.",
+                "dataType": "int64",
+                "references": {
+                    "@id": "rorco_data.csv"
+                }
+            }
+        ]
+    }
+}

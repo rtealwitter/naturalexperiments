@@ -351,5 +351,14 @@ if __name__ == '__main__':
 
     school_geom = add_proximity(school_geom)
 
+    # Remove all *columns* that contain '_x'
+    school_geom = school_geom.loc[:,~school_geom.columns.str.contains('_x')]
+
+    # Remove all *columns* that contain '.2'
+    school_geom = school_geom.loc[:,~school_geom.columns.str.contains('.2')]
+
+    # Rename all columns that contain '.1' to remove '.1'
+    school_geom.columns = [col.replace('.1', '') for col in school_geom.columns]
+
     # Write to csv
     school_geom.to_csv('rorco_data.csv')
