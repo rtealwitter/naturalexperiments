@@ -1,16 +1,17 @@
-# As described in Equation 1 of Bias-Reduced Doubly Robust Estimation
-# https://www.tandfonline.com/doi/full/10.1080/01621459.2014.958155
+import numpy as np
 
-def compute_doubly_robust(X, y, z, p, train_fn):
-    boolean_control = z == 0
-    pred_y0 = train_fn(
-        X[boolean_control,:], y['y0'][boolean_control], X
+def compute_doubly_robust(X, y, z, p, train_fn, weights0=None, weights1=None):
+    if weights0 is None:
+        weights0 = np.ones_like(p)
+    if weights1 is None:
+        weights1 = np.ones_like(p)
+    f1= train_fn(
+        X, y['y1'], X, weights=weights1, 
     )
-    boolean_treatment = z == 1
-    pred_y1 = train_fn(
-        X[boolean_treatment,:], y['y1'][boolean_treatment], X
+    f0= train_fn(
+        X, y['y0'], X, weights=weights0, 
     )
-    treatment_term = z * y['y1'] / p - (z - p) * pred_y1 / p
-    control_term = (1 - z) * y['y0'] / (1 - p) - ((1 - z) - (1 - p)) * pred_y0 / (1 - p)
-    return (treatment_term - control_term).mean()
-
+    return (
+        (y['y1'] - f1) * z / p + f1 \
+        - (y['y0'] - f0) * (1-z) / (1-p) - f0
+    ).mean()

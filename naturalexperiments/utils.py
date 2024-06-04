@@ -32,7 +32,7 @@ def compute_cross_entropy(p, treatment):
     return - np.mean(treatment * np.log(p) + (1-treatment) * np.log(1-p))
 
 def sig_round(x, precision=3):
-    return np.format_float_positional(x, precision=precision, unique=False, fractional=False, trim='k')
+    return float(np.format_float_positional(x, precision=precision, unique=False, fractional=False, trim='k'))
 
 def biased_treatment_effect(x, scaling=1):
     # No effect on first half

@@ -1,4 +1,8 @@
-import naturalexperiments as ne
+import sys
+sys.path.append('../')
+import naturalexperiment5 as ne
+import pickle
+import os
 
 dataset = 'RORCO'
 
@@ -13,5 +17,5 @@ ne.plot_estimates(
     variance, 
     xlabel = r'Distance Correlation',
     figure_name=rf'{dataset}: Squared Error by Correlation',
-    folder = 'images/',
+    folder = '../images/',
 )

@@ -144,6 +144,6 @@ def dataset_table(dataloaders, print_md=True, print_latex=False):
 
     if print_latex:
         bold_headers = ['\\textbf{' + h + '}' for h in headers]
-        print(' & '.join(bold_headers) + r'\\ \hline')
+        print(' & '.join(bold_headers) + r'\\')
         for row in table:
-            print(' & '.join([str(x) for x in row]) + r'\\ \hline')
+            print(' & '.join([str(x) for x in row]) + r'\\')

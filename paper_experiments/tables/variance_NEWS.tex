@@ -1,26 +1,27 @@
-\begin{tabular}{|l|l|l|l|l|l|}
-  \hline
-  \textbf{Method} & \textbf{Mean} & \textbf{1st Quartile} & \textbf{2nd Quartile} & \textbf{3rd Quartile} & \textbf{Time (s)} \\ \hline
-Regression Discontinuity & 0.00228 & 0.00123 & 0.00209 & 0.00325 & \underline{\textbf{0.00116}}\\ \hline
-Propensity Stratification & 0.000496 & 0.000311 & 0.000502 & 0.000615 & 0.00290\\ \hline
-Direct Difference & 0.0814 & 0.0339 & 0.0718 & 0.127 & \textit{\textbf{0.000486}}\\ \hline
-Adjusted Direct & 0.0006 & 0.000214 & 0.000478 & 0.000884 & 12.0\\ \hline
-Horvitz-Thompson & 0.000731 & 0.0000756 & 0.000273 & 0.000864 & \textbf{0.000479}\\ \hline
-Doubly Robust & \underline{\textbf{0.0000124}} & \underline{\textbf{0.000000484}} & \underline{\textbf{0.00000331}} & \underline{\textbf{0.0000114}} & 13.4\\ \hline
-TMLE & 0.00248 & 0.00000572 & 0.0000321 & 0.000193 & 24.9\\ \hline
-Off-policy & 0.000530 & 0.000251 & 0.000477 & 0.000728 & 12.7\\ \hline
-Double-Double & \textbf{0.000000133} & \textbf{0.00000000291} & \textbf{0.0000000184} & \textbf{0.0000000887} & 25.4\\ \hline
-Direct Prediction & 0.000013 & 0.00000113 & 0.00000441 & 0.0000164 & 12.4\\ \hline
-SNet & 0.000227 & 0.0000285 & 0.000136 & 0.000319 & 76.0\\ \hline
-FlexTENet & 0.0000292 & 0.00000428 & 0.0000136 & 0.0000289 & 182.\\ \hline
-OffsetNet & 0.0000266 & 0.00000243 & 0.0000102 & 0.0000305 & 133.\\ \hline
-TNet & 0.0000226 & 0.00000224 & 0.0000118 & 0.0000269 & 126.\\ \hline
-TARNet & 0.0000273 & 0.00000123 & 0.0000114 & 0.0000326 & 90.1\\ \hline
-DragonNet & 0.0000490 & 0.00000226 & 0.0000243 & 0.0000597 & 38.3\\ \hline
-SNet3 & 0.000388 & 0.0000390 & 0.000188 & 0.000479 & 61.4\\ \hline
-DRNet & 0.0000283 & 0.0000014 & 0.00000882 & 0.0000191 & 190.\\ \hline
-RANet & 0.0000216 & 0.00000334 & 0.000011 & 0.0000326 & 191.\\ \hline
-PWNet & 0.00064 & 0.0000449 & 0.000293 & 0.00081 & 145.\\ \hline
-RNet & 0.0000437 & 0.00000520 & 0.0000213 & 0.0000629 & 63.1\\ \hline
-XNet & \textit{\textbf{0.00000569}} & \textit{\textbf{0.00000027}} & \textit{\textbf{0.00000102}} & \textit{\textbf{0.0000059}} & 241.\\ \hline
+\begin{tabular}{llllll}
+  \toprule
+  \textbf{Method} & \textbf{Mean} & \textbf{1st Quartile} & \textbf{2nd Quartile} & \textbf{3rd Quartile} & \textbf{Time (s)} \\ \midrule 
+Regression Discontinuity & 2.28e-03 & 1.23e-03 & 2.09e-03 & 3.25e-03 & \cellcolor{bronze!30}1.16e-03\\
+Propensity Stratification & 4.96e-04 & 3.11e-04 & 5.02e-04 & 6.15e-04 & 2.90e-03\\
+Direct Difference & 8.14e-02 & 3.39e-02 & 7.18e-02 & 1.27e-01 & \cellcolor{silver!30}4.86e-04\\
+Adjusted Direct & 6.00e-04 & 2.14e-04 & 4.78e-04 & 8.84e-04 & 1.20e+01\\
+Horvitz-Thompson & 7.31e-04 & 7.56e-05 & 2.73e-04 & 8.64e-04 & \cellcolor{gold!30}4.79e-04\\
+TMLE & 2.48e-03 & 5.72e-06 & 3.21e-05 & 1.93e-04 & 2.49e+01\\
+Off-policy & 5.30e-04 & 2.51e-04 & 4.77e-04 & 7.28e-04 & 1.27e+01\\
+Double-Double & \cellcolor{silver!30}1.33e-07 & \cellcolor{silver!30}2.91e-09 & \cellcolor{silver!30}1.84e-08 & \cellcolor{silver!30}8.87e-08 & 2.54e+01\\
+Direct Prediction & 1.30e-05 & 1.13e-06 & 4.41e-06 & 1.64e-05 & 1.24e+01\\
+SNet & 2.27e-04 & 2.85e-05 & 1.36e-04 & 3.19e-04 & 7.60e+01\\
+FlexTENet & 2.92e-05 & 4.28e-06 & 1.36e-05 & 2.89e-05 & 1.82e+02\\
+OffsetNet & 2.66e-05 & 2.43e-06 & 1.02e-05 & 3.05e-05 & 1.33e+02\\
+TNet & 2.26e-05 & 2.24e-06 & 1.18e-05 & 2.69e-05 & 1.26e+02\\
+TARNet & 2.73e-05 & 1.23e-06 & 1.14e-05 & 3.26e-05 & 9.01e+01\\
+DragonNet & 4.90e-05 & 2.26e-06 & 2.43e-05 & 5.97e-05 & 3.83e+01\\
+SNet3 & 3.88e-04 & 3.90e-05 & 1.88e-04 & 4.79e-04 & 6.14e+01\\
+DRNet & 2.83e-05 & 1.40e-06 & 8.82e-06 & 1.91e-05 & 1.90e+02\\
+RANet & 2.16e-05 & 3.34e-06 & 1.10e-05 & 3.26e-05 & 1.91e+02\\
+PWNet & 6.40e-04 & 4.49e-05 & 2.93e-04 & 8.10e-04 & 1.45e+02\\
+RNet & 4.37e-05 & 5.20e-06 & 2.13e-05 & 6.29e-05 & 6.31e+01\\
+XNet & \cellcolor{bronze!30}5.69e-06 & \cellcolor{bronze!30}2.70e-07 & \cellcolor{bronze!30}1.02e-06 & \cellcolor{bronze!30}5.90e-06 & 2.41e+02\\
+Doubly Robust & \cellcolor{gold!30}3.68e-08 & \cellcolor{gold!30}9.92e-10 & \cellcolor{gold!30}9.88e-09 & \cellcolor{gold!30}4.63e-08 & 2.04e+01\\
+\bottomrule
 \end{tabular}

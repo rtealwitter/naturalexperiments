@@ -1,19 +1,20 @@
-\begin{tabular}{|l|l|l|l|l|l|}
-  \hline
-  \textbf{Method} & \textbf{Mean} & \textbf{1st Quartile} & \textbf{2nd Quartile} & \textbf{3rd Quartile} & \textbf{Time (s)} \\ \hline
-Propensity Stratification & \textit{\textbf{0.0000328}} & \textit{\textbf{0.00000353}} & \textit{\textbf{0.0000144}} & \textit{\textbf{0.0000511}} & 0.00309\\ \hline
-Direct Difference & \textbf{0.0000245} & \textbf{0.00000256} & \textbf{0.0000102} & \textbf{0.0000366} & \textit{\textbf{0.000486}}\\ \hline
-Adjusted Direct & 0.173 & 0.00125 & 0.00445 & 0.0279 & 12.2\\ \hline
-Horvitz-Thompson & 0.0000852 & \underline{\textbf{0.00000884}} & 0.0000395 & 0.0000934 & \textbf{0.000465}\\ \hline
-Doubly Robust & 0.0165 & 0.00107 & 0.00541 & 0.0213 & 12.5\\ \hline
-TMLE & 2.66 & 0.026 & 0.105 & 0.287 & 24.8\\ \hline
-Off-policy & 0.00865 & 0.000614 & 0.00260 & 0.00886 & 12.4\\ \hline
-Double-Double & 0.00995 & 0.000525 & 0.00269 & 0.0101 & 24.6\\ \hline
-Direct Prediction & 0.153 & 0.0201 & 0.0836 & 0.224 & 12.6\\ \hline
-FlexTENet & 93.6 & 0.18 & 1.68 & 12.2 & 20.4\\ \hline
-OffsetNet & 1.19 & 0.0278 & 0.0862 & 0.583 & 16.1\\ \hline
-TNet & 21.6 & 0.0308 & 0.249 & 0.905 & 10.1\\ \hline
-TARNet & 4.06 & 0.0486 & 0.166 & 0.802 & 9.54\\ \hline
-RANet & 10.4 & 0.102 & 0.573 & 4.25 & 17.2\\ \hline
-Regression Discontinuity & \underline{\textbf{0.0000427}} & 0.0000240 & \underline{\textbf{0.0000384}} & \underline{\textbf{0.0000608}} & \underline{\textbf{0.00111}}\\ \hline
+\begin{tabular}{llllll}
+  \toprule
+  \textbf{Method} & \textbf{Mean} & \textbf{1st Quartile} & \textbf{2nd Quartile} & \textbf{3rd Quartile} & \textbf{Time (s)} \\ \midrule 
+Propensity Stratification & \cellcolor{silver!30}3.28e-05 & \cellcolor{silver!30}3.53e-06 & \cellcolor{silver!30}1.44e-05 & \cellcolor{silver!30}5.11e-05 & 3.09e-03\\
+Direct Difference & \cellcolor{gold!30}2.45e-05 & \cellcolor{gold!30}2.56e-06 & \cellcolor{gold!30}1.02e-05 & \cellcolor{gold!30}3.66e-05 & \cellcolor{silver!30}4.86e-04\\
+Adjusted Direct & 1.73e-01 & 1.25e-03 & 4.45e-03 & 2.79e-02 & 1.22e+01\\
+Horvitz-Thompson & 8.52e-05 & \cellcolor{bronze!30}8.84e-06 & 3.95e-05 & 9.34e-05 & \cellcolor{gold!30}4.65e-04\\
+TMLE & 2.66e+00 & 2.60e-02 & 1.05e-01 & 2.87e-01 & 2.48e+01\\
+Off-policy & 8.65e-03 & 6.14e-04 & 2.60e-03 & 8.86e-03 & 1.24e+01\\
+Double-Double & 9.95e-03 & 5.25e-04 & 2.69e-03 & 1.01e-02 & 2.46e+01\\
+Direct Prediction & 1.53e-01 & 2.01e-02 & 8.36e-02 & 2.24e-01 & 1.26e+01\\
+FlexTENet & 9.36e+01 & 1.80e-01 & 1.68e+00 & 1.22e+01 & 2.04e+01\\
+OffsetNet & 1.19e+00 & 2.78e-02 & 8.62e-02 & 5.83e-01 & 1.61e+01\\
+TNet & 2.16e+01 & 3.08e-02 & 2.49e-01 & 9.05e-01 & 1.01e+01\\
+TARNet & 4.06e+00 & 4.86e-02 & 1.66e-01 & 8.02e-01 & 9.54e+00\\
+RANet & 1.04e+01 & 1.02e-01 & 5.73e-01 & 4.25e+00 & 1.72e+01\\
+Regression Discontinuity & \cellcolor{bronze!30}4.27e-05 & 2.40e-05 & \cellcolor{bronze!30}3.84e-05 & \cellcolor{bronze!30}6.08e-05 & \cellcolor{bronze!30}1.11e-03\\
+Doubly Robust & 1.89e-02 & 2.20e-04 & 1.30e-03 & 5.40e-03 & 2.10e+01\\
+\bottomrule
 \end{tabular}

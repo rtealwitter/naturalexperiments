@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # # # VARIANCE BENCHMARK TABLE # # #
 
-def benchmark_table(variance, times, print_md=True, print_latex=False, filename=None):
+def benchmark_table(variance, times, print_md=True, print_latex=False, filename=None, include_color=True):
     table = []
     for method in variance:
         # Sometimes NaNs from one of the CATENet methods
@@ -36,29 +36,32 @@ def benchmark_table(variance, times, print_md=True, print_latex=False, filename=
         cols += [sorted(vals)]
     if filename is not None:
         with open(filename, 'w') as f:
-            f.write('\\begin{tabular}{|l|l|l|l|l|l|}\n')
-            f.write('  \\hline\n')
-            f.write('  \\textbf{Method} & \\textbf{Mean} & \\textbf{1st Quartile} & \\textbf{2nd Quartile} & \\textbf{3rd Quartile} & \\textbf{Time (s)} \\\\ \\hline\n')
+            f.write('\\begin{tabular}{llllll}\n')
+            f.write('  \\toprule\n')
+            f.write('  \\textbf{Method} & \\textbf{Mean} & \\textbf{1st Quartile} & \\textbf{2nd Quartile} & \\textbf{3rd Quartile} & \\textbf{Time (s)} \\\\ \\midrule \n')
 
     for row in table:
         print_row = [row[0]]
         for idx in range(1, len(row)):
-            if row[idx] == cols[idx-1][0]:
-                print_row.append(r'\textbf{'+str(row[idx])+'}')
-            elif row[idx] == cols[idx-1][1]:
-                print_row.append(r'\textit{\textbf{'+str(row[idx])+'}}')
-            elif row[idx] == cols[idx-1][2]:
-                print_row.append(r'\underline{\textbf{'+str(row[idx])+'}}')
-            else:
-                print_row.append(row[idx])
+            color = ''
+            if include_color:
+                if row[idx] == cols[idx-1][0]:
+                    color = '\\cellcolor{gold!30}'
+                elif row[idx] == cols[idx-1][1]:
+                    color = '\\cellcolor{silver!30}'
+                elif row[idx] == cols[idx-1][2]:
+                    color = '\\cellcolor{bronze!30}'
+            val = "{:.2e}".format(row[idx])
+            print_row.append(f'{color}{val}')
         if print_latex:
-            to_print = ' & '.join(print_row) + '\\\\ \hline'
+            to_print = ' & '.join(print_row) + r'\\'
             print(to_print)
             if filename is not None:
                 with open(filename, 'a') as f:
                     f.write(to_print + '\n')
     if filename is not None:
         with(open(filename, 'a')) as f:
+            f.write('\\bottomrule\n')
             f.write('\\end{tabular}')
 
 # # # VARIANCE PLOTS # # #

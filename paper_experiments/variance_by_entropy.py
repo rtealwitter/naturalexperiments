@@ -1,5 +1,8 @@
-import naturalexperiments as ne
-
+import sys
+sys.path.append('../')
+import naturalexperiment5 as ne
+import pickle
+import os
 
 dataset = 'RORCO'
 
@@ -13,5 +16,5 @@ ne.plot_estimates(
     variance, 
     xlabel = r'Cross Entropy',
     figure_name=rf'{dataset}: Squared Error by Cross Entropy',
-    folder = 'images/',
+    folder = '../images/',
 )

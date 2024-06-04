@@ -1,5 +1,7 @@
+import sys
+sys.path.append('../')
 
-import naturalexperiments as ne
+import naturalexperiment5 as ne
 
 ne.dataset_table(ne.dataloaders, print_md=True, print_latex=True)
 
