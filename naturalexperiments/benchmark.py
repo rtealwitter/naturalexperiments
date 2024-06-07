@@ -4,7 +4,6 @@ from .model import estimate_propensity, train
 from .data import dataloaders
 from .utils import compute_cross_entropy, compute_distance_correlation, build_synthetic_outcomes, biased_treatment_effect, sigmoid, sig_round
 import numpy as np
-import sklearn.preprocessing
 import pandas as pd
 from tabulate import tabulate
 import matplotlib.pyplot as plt
