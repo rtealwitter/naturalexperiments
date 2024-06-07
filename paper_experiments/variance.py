@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../')
-import naturalexperiment5 as ne
+import naturalexperiments as ne
 import numpy as np
 
 

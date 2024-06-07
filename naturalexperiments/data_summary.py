@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from tabulate import tabulate
 from .utils import biased_treatment_effect, compute_cross_entropy, compute_distance_correlation, sig_round
 from .model import estimate_propensity
+import warnings
 
 import matplotlib
 matplotlib.rcParams.update({'font.size': 14})
@@ -53,11 +54,13 @@ def plot_outcome_by_propensity(propensity, y, z, dataset, filename=None):
     for i in range(num_buckets):
         bucket = (propensity >= percentiles[i]) & (propensity < percentiles[i+1])
         treatment_in_bucket = np.sum(z * bucket)
-        treatment_outcomes.append(np.sum((y['y1']*z)[bucket]) / treatment_in_bucket)
-        treatment_sizes.append(treatment_in_bucket/total_size * 500)
         control_in_bucket = np.sum((1-z) * bucket)
-        control_outcomes.append(np.sum((y['y0']*(1-z))[bucket]) / control_in_bucket)
-        control_sizes.append(control_in_bucket / total_size * 500)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            treatment_outcomes.append(np.sum((y['y1']*z)[bucket]) / treatment_in_bucket)
+            treatment_sizes.append(treatment_in_bucket/total_size * 500)
+            control_outcomes.append(np.sum((y['y0']*(1-z))[bucket]) / control_in_bucket)
+            control_sizes.append(control_in_bucket / total_size * 500)
     plt.scatter(plot_percentiles, treatment_outcomes, s=treatment_sizes, color='teal')
     plt.plot(plot_percentiles, treatment_outcomes, label='Treatment', color='teal', linewidth=3)
 

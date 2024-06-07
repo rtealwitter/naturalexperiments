@@ -20,6 +20,8 @@ def load_acic(year):
     
     data = pd.read_csv(filename)
 
+    # All other variables are super imbalanced
+    acic_z = (data['x_38'].values == 'M').astype(int)
     # Remove string columns
     data = data.select_dtypes(include = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64'])
     data = data.astype(np.float32)
@@ -32,9 +34,9 @@ def load_acic(year):
     for col in data.columns:
         if data[col].nunique() == 2:
             binary_cols += [col]
-    binary_col = binary_cols[0] if year == '16' else 'x_15'
-
+    binary_col = binary_cols[0]
     z = data[binary_col].values
+    if year == '17': z = acic_z
 
     # Assuming the last column is the target column
     target_col = data.columns[-1]
@@ -44,7 +46,6 @@ def load_acic(year):
     }, dtype=float)
 
     
-
     X = np.array(data.drop(columns=[binary_col, target_col]).values, dtype=np.float32)
 
     return X, y, z

@@ -4,6 +4,7 @@ from .model import estimate_propensity, train
 from .data import dataloaders
 from .utils import compute_cross_entropy, compute_distance_correlation, build_synthetic_outcomes, biased_treatment_effect, sigmoid, sig_round
 import numpy as np
+import sklearn.preprocessing
 import pandas as pd
 from tabulate import tabulate
 import matplotlib.pyplot as plt
@@ -45,11 +46,11 @@ def benchmark_table(variance, times, print_md=True, print_latex=False, filename=
             color = ''
             if include_color:
                 if row[idx] == cols[idx-1][0]:
-                    color = '\\cellcolor{gold!30}'
+                    color = '\\cellcolor{gold!60}'
                 elif row[idx] == cols[idx-1][1]:
-                    color = '\\cellcolor{silver!30}'
+                    color = '\\cellcolor{silver!60}'
                 elif row[idx] == cols[idx-1][2]:
-                    color = '\\cellcolor{bronze!30}'
+                    color = '\\cellcolor{bronze!60}'
             val = "{:.2e}".format(row[idx])
             print_row.append(f'{color}{val}')
         if print_latex:
