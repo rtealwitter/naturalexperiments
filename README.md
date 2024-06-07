@@ -39,6 +39,8 @@ method = 'Double-Double'
 estimator = ne.methods[method]
 ```
 
+The available methods include Regression Discontinuity, Propensity Stratification, Direct Difference, Adjusted Direct, Horvitz-Thompson, TMLE, Off-policy, Double-Double, Doubly Robust, Direct Prediction, SNet, FlexTENet, OffsetNet, TNet, TARNet, DragonNet, SNet3, DRNet, RANet, PWNet, RNet, and XNet.
+
 Each method takes the following arguments: the covariates `X`, the outcomes `y`, the treatment assignment `z`, propensity score estimates `p`, and a function for training `train` predictions in the estimator.
 
 We can use the `estimate_propensity` function to estimate the propensity scores.
@@ -58,13 +60,32 @@ Some estimators, such as regression discontinuity, do not use the training funct
 
 ## Exploring the Datasets
 
-We can explore the datasets with a tabular and several figures.
+We can explore the datasets with a tabular comparison and several figures.
 
 ```python
 # Produces a markdown table comparing the size, number of variables, treatment rate, etc.
 ne.dataset_table(ne.dataloaders, print_md=True)
+```
 
+The table will look like this:
+
+Dataset       Size    Variables    % Treated    Cross Entropy    Corr(y1, p)    Corr(y0, p)
+----------  ------  -----------  -----------  ---------------  -------------  -------------
+ACIC 2016     4802           54         18.4           0.379         0.129         0.0393
+ACIC 2017     4302           50         51             0.606        -0.116        -0.0247
+IHDP           747           26         18.6           0.459         0.0785        0.0199
+JOBS           722            8         41.1           0.0827        0.0356        0.0766
+NEWS          5000            3         45.8           0.545         0.858        -0.563
+TWINS        50820           40         49             0.506         0.00133      -0.000665
+RORCO Real    4178           78         25.3           0.162        -0.027        -0.101
+RORCO        21663           78         49.4           0.151        -0.979        -0.98
+
+We can also plot the distribution of the covariates, the propensity scores, and the outcomes.
+
+```python
 # Produces plots of the propensity score distribution, outcomes by propensity scores, and propensity calibration
+# To limit number of plots, we provide RORCO and RORCO Real datasets
+dataloaders = {name : ne.dataloaders[name] for name in ['RORCO', 'RORCO Real']}
 ne.plot_all_data(ne.dataloaders)
 ```
 
@@ -73,7 +94,7 @@ ne.plot_all_data(ne.dataloaders)
 We can benchmark the estimators on the datasets using the `compute_variance` function.
 
 ```python
-methods = {name: ne.methods[name] for name in ['Double-Double', 'Regression Discontinuity', 'TARNet']}
+methods = {name: ne.methods[name] for name in ['Double-Double', 'Regression Discontinuity', 'DragonNet']}
 
 variance, times = ne.compute_variance(methods, dataset, num_runs=5)
 ```
@@ -85,6 +106,14 @@ Once we benchmark the estimators, we can print the results in a table.
 ```python
 ne.benchmark_table(variance, times, print_md=True)
 ```
+
+The table will look like this:
+
+| Method                   |     Mean |   1st Quartile |   2nd Quartile |   3rd Quartile |   Time (s) |
+|--------------------------|----------|----------------|----------------|----------------|------------|
+| Double-Double            | 1.04e-05 |       8.18e-06 |       1.01e-05 |       1.38e-05 |   27.6     |
+| Regression Discontinuity | 0.00467  |       0.00411  |       0.00493  |       0.00588  |    0.00115 |
+| DragonNet                | 0.0223   |       0.0217   |       0.0227   |       0.0252   |    4.62    |
 
 ## Additional Features
 
