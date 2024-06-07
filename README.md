@@ -121,11 +121,11 @@ The `naturalexperiments` package includes additional features for comprehensivel
 
 There are functions for computing the empirical variance as a function of the sample size, the correlation in the outcomes, and the propensity score accuracy.
 
-These functions and more appear in the `paper_experiments` folder (as the name suggests, the folder includes code to reproduce the results in the paper). Because some experiments are computationally intensive, the functions are designed to run in parallel by writing the results to a shared cache.
+These functions and more appear in the `paper_experiments` folder (as the name suggests, the folder includes code to reproduce the results in the paper). Because some experiments are computationally intensive, the functions are designed to run in parallel by writing the results to a shared cache. We include the cached results from >100 repetitions of each experiment in `paper_experiments/saved` so that the tables and plots can be reproduced easily.
 
 ## Package Structure
 
-The `naturalexperiments` package is designed to be modular and extensible. The package is organized in the structure:
+The `naturalexperiments` package is designed to be modular and extensible. The package is organized in the following way:
 
 - `naturalexperiments/`
   - `data/`: Contains modules for loading datasets.
