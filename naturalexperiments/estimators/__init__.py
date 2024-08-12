@@ -9,6 +9,7 @@ from .direct_prediction import compute_direct_prediction
 from .off_policy import compute_off_policy
 from .catenet import wrap_catenet
 from .double_double import compute_double_double
+from .causalforest import compute_causalforest
 
 methods = {
     'Regression Discontinuity' : compute_regression_discontinuity, 
@@ -21,6 +22,7 @@ methods = {
     'Double-Double' : compute_double_double,
     'Doubly Robust' : compute_doubly_robust,
     'Direct Prediction' : compute_direct_prediction,
+    'Causal Forest' : compute_causalforest,
     'SNet' : wrap_catenet('SNet'),
     'FlexTENet' : wrap_catenet('FlexTENet'),
     'OffsetNet' : wrap_catenet('OffsetNet'),

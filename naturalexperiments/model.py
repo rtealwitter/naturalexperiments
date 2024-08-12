@@ -90,6 +90,15 @@ def train(X_train, y_train, X_test=None, weights=None, lr=.001, epochs=200, retu
         return easy_model
     return easy_model(X_test)
 
+from ISLP.bart import BART
+
+def train_bart(X_train, y_train, X_test=None, weights=None, return_model=False, num_trees=200, num_particles=10, max_stages=5000):
+    bart = BART(num_trees=num_trees, num_particles=num_particles, max_stages=max_stages)
+    bart.fit(X_train, y_train, sample_weight=weights)
+    if return_model:
+        return lambda X : bart.predict(X)
+    return bart.predict(X_test)
+
 def estimate_propensity(X, treatment):
     propensity = train(X, treatment, X, is_bce=True)
     # Clip propensity to avoid numerical instability
