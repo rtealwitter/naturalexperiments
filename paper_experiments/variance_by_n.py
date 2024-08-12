@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../')
+sys.path.insert(1, '../')
 import naturalexperiments as ne
 
 dataset = 'RORCO'
@@ -17,5 +17,5 @@ ne.plot_estimates(
     variance, 
     xlabel = r'Number of Observations',
     figure_name=rf'{dataset}: Squared Error by Number of Observations',
-    folder = '../images/',
+    folder = 'images/',
 )

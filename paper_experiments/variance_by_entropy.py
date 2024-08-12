@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../')
+sys.path.insert(1, '../')
 import naturalexperiments as ne
 import pickle
 import os
@@ -16,5 +16,5 @@ ne.plot_estimates(
     variance, 
     xlabel = r'Cross Entropy',
     figure_name=rf'{dataset}: Squared Error by Cross Entropy',
-    folder = '../images/',
+    folder = 'images/',
 )

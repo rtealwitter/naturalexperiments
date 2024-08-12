@@ -1,6 +1,6 @@
 # Add repo parent directory to path
 import sys
-sys.path.append('../')
+sys.path.insert(1, '../')
 import naturalexperiments as ne
 
 from importlib import reload

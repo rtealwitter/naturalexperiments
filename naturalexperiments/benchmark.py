@@ -120,7 +120,8 @@ def plot_estimates(run_estimates, xlabel, figure_name, folder, show=False, save=
     if xlogscale:
         plt.xscale('log')
     plt.xlabel(xlabel)
-    plt.legend()
+    # Make legend small
+    plt.legend(fontsize='small', ncol=2) 
     plt.tight_layout()
 
     if save:

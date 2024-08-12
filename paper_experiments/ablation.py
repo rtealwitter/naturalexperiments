@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../')
+sys.path.insert(1, '../')
 import naturalexperiments as ne
 import numpy as np
 

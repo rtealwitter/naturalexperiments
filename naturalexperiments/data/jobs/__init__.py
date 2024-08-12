@@ -18,11 +18,11 @@ def load_jobs():
 
     z = data['treat'].values
     y = pd.DataFrame({
-        'y1' : data['re78'].values * z,
-        'y0' : data['re78'].values * (1-z)
+        'y1' : data['re78'].values,
+        'y0' : data['re75'].values
     }, dtype=float)
 
-    X = data.drop(columns=['treat', 're78']).values
+    X = data.drop(columns=['treat', 're78', 're75']).values
 
     return X, y, z
 
