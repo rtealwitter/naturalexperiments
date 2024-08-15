@@ -41,7 +41,7 @@ def load_rorco_real():
 
     return X, y, z
 
-def load_rorco():
+def load_rorco(return_p=False):
     filename = __file__.replace('__init__.py', 'rorco_data.csv')
 
     if not os.path.exists(filename):
@@ -67,4 +67,5 @@ def load_rorco():
     X, y, p = build_synthetic_outcomes(X)
     uniform = np.random.random_sample(X.shape[0])
     z = (uniform < p).astype(int)
+    if return_p: return X, y, z, p
     return X, y, z
