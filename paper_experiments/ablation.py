@@ -45,4 +45,4 @@ for method in methods:
     new_variance[method] = variance[method]
     new_times[method] = times[method]
     
-ne.benchmark_table(new_variance, new_times, print_md=True, print_latex=True, filename=f'../tables/ablation_{dataset}.tex')
+ne.benchmark_table(new_variance, new_times, print_md=True, print_latex=True, filename=f'tables/ablation_{dataset}.tex')
