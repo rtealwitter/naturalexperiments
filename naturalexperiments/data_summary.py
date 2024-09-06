@@ -14,7 +14,7 @@ def plot_propensity(propensity, dataset, filename=None):
     plt.xlabel('Propensity Score')
     plt.title('Propensity Score Histogram: ' + dataset)
     if filename is not None:
-        plt.savefig(filename)
+        plt.savefig(filename.replace(' ', '_'))
     else:
         plt.show()
     plt.clf()
@@ -36,7 +36,7 @@ def plot_propensity_calibration(propensity, z, dataset, filename=None):
     plt.ylabel('Mean Treatment')
     plt.title('Propensity Calibration Plot: ' + dataset)
     if filename is not None:
-        plt.savefig(filename)
+        plt.savefig(filename.replace(' ', '_'))
     else:
         plt.show()
     plt.clf()
@@ -73,7 +73,7 @@ def plot_outcome_by_propensity(propensity, y, z, dataset, filename=None):
 
     plt.legend()
     if filename is not None:
-        plt.savefig(filename)
+        plt.savefig(filename.replace(' ', '_'))
     else:
         plt.show()
     plt.clf()

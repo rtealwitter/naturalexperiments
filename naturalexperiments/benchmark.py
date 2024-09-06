@@ -125,7 +125,7 @@ def plot_estimates(run_estimates, xlabel, figure_name, folder, show=False, save=
     plt.tight_layout()
 
     if save:
-        plt.savefig(f'{folder}{figure_name}.pdf', dpi=500)
+        plt.savefig(f'{folder}{figure_name}.pdf'.replace(' ', '_'), dpi=500)
     if show:
         plt.show()
 
